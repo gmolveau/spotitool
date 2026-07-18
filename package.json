@@ -1,0 +1,35 @@
+{
+	"name": "spotitool",
+	"version": "1.0.0",
+	"description": "Personal power-tools suite for managing your own Spotify account. MVP: Followed Artists.",
+	"type": "module",
+	"scripts": {
+		"dev": "vite dev",
+		"build": "vite build",
+		"preview": "vite preview",
+		"check": "svelte-kit sync && svelte-check --tsconfig ./jsconfig.json",
+		"format": "prettier --write .",
+		"lint": "prettier --check ."
+	},
+	"keywords": [],
+	"author": "",
+	"license": "ISC",
+	"devEngines": {
+		"packageManager": {
+			"name": "pnpm",
+			"version": "^11.14.0",
+			"onFail": "download"
+		}
+	},
+	"devDependencies": {
+		"@sveltejs/adapter-static": "^3.0.6",
+		"@sveltejs/kit": "^2.8.0",
+		"@sveltejs/vite-plugin-svelte": "^4.0.0",
+		"prettier": "^3.3.3",
+		"prettier-plugin-svelte": "^3.2.7",
+		"svelte": "^5.1.0",
+		"svelte-check": "^4.0.0",
+		"typescript": "^5.6.0",
+		"vite": "^5.4.0"
+	}
+}
