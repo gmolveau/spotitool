@@ -34,7 +34,9 @@ async function apiFetch(path, options = {}) {
 	if (!res.ok) {
 		throw new Error(`Spotify API error (${res.status}): ${await res.text()}`);
 	}
-	return res.status === 204 ? null : res.json();
+	// Some endpoints (e.g. DELETE /me/library) reply 200 with an empty body.
+	const text = await res.text();
+	return text ? JSON.parse(text) : null;
 }
 
 /**
@@ -62,13 +64,18 @@ export async function fetchAllFollowedArtists(onProgress) {
 
 /**
  * Unfollow artists in batches of 50 (the API's per-request cap).
+ *
+ * Uses the generic library endpoint (`DELETE /me/library` with `spotify:artist:`
+ * URIs). The old artist-specific `DELETE /me/following` endpoint was removed for
+ * Development Mode apps in the February 2026 Web API changes and returns 403.
  * @param {string[]} ids
  * @param {(done: number, total: number) => void} [onProgress]
  */
 export async function unfollowArtists(ids, onProgress) {
 	for (let i = 0; i < ids.length; i += 50) {
 		const batch = ids.slice(i, i + 50);
-		await apiFetch(`/me/following?type=artist&ids=${batch.join(',')}`, { method: 'DELETE' });
+		const uris = batch.map((id) => `spotify:artist:${id}`).join(',');
+		await apiFetch(`/me/library?uris=${encodeURIComponent(uris)}`, { method: 'DELETE' });
 		onProgress?.(Math.min(i + 50, ids.length), ids.length);
 	}
 }
