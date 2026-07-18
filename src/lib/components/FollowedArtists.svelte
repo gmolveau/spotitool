@@ -15,7 +15,7 @@
 	let query = $state('');
 	let genreFilter = $state('');
 	/** @type {'default' | 'az' | 'za'} */
-	let sort = $state('default');
+	let sort = $state('az');
 
 	// Selection (artist ids marked for unfollow)
 	const selected = new SvelteSet();
