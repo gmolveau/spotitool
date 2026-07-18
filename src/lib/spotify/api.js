@@ -52,7 +52,7 @@ export async function fetchAllFollowedArtists(onProgress) {
 		const query = new URLSearchParams({ type: 'artist', limit: '50' });
 		if (after) query.set('after', after);
 		const data = await apiFetch(`/me/following?${query}`);
-		artists.push(...data.artists.items);
+		artists.push(...data.artists.items.map((a) => ({ ...a, genres: a.genres ?? [] })));
 		after = data.artists.cursors?.after ?? null;
 		onProgress?.(artists.length, data.artists.total ?? artists.length);
 	} while (after);
