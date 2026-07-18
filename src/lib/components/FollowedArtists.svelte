@@ -192,6 +192,18 @@
 								{/if}
 							</span>
 						</label>
+						{#if a.external_urls?.spotify}
+							<a
+								class="open"
+								href={a.external_urls.spotify}
+								target="_blank"
+								rel="noopener noreferrer"
+								aria-label="Open {a.name} on Spotify"
+								title="Open on Spotify"
+							>
+								↗
+							</a>
+						{/if}
 					</li>
 				{/each}
 			</ul>
@@ -307,15 +319,41 @@
 		gap: 0.5rem;
 	}
 
+	.artist {
+		position: relative;
+	}
+
 	.artist label {
 		display: flex;
 		align-items: center;
 		gap: 0.7rem;
-		padding: 0.5rem 0.6rem;
+		padding: 0.5rem 2.4rem 0.5rem 0.6rem;
 		background: var(--surface);
 		border: 1px solid var(--border);
 		border-radius: var(--radius);
 		cursor: pointer;
+	}
+
+	.open {
+		position: absolute;
+		top: 50%;
+		right: 0.5rem;
+		transform: translateY(-50%);
+		display: inline-flex;
+		align-items: center;
+		justify-content: center;
+		width: 1.6rem;
+		height: 1.6rem;
+		border-radius: 50%;
+		color: var(--text-dim);
+		text-decoration: none;
+		font-size: 0.95rem;
+		line-height: 1;
+	}
+
+	.open:hover {
+		color: var(--text);
+		background: var(--surface-2);
 	}
 
 	.artist.selected label {
