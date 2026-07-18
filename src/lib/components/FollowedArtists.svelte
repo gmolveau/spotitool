@@ -43,7 +43,7 @@
 
 	const genres = $derived.by(() => {
 		const set = new Set();
-		for (const a of artists) for (const g of a.genres) set.add(g);
+		for (const a of artists) for (const g of a.genres ?? []) set.add(g);
 		return [...set].sort((a, b) => a.localeCompare(b));
 	});
 
@@ -51,7 +51,7 @@
 		const q = query.trim().toLowerCase();
 		let list = artists.filter((a) => {
 			if (q && !a.name.toLowerCase().includes(q)) return false;
-			if (genreFilter && !a.genres.includes(genreFilter)) return false;
+			if (genreFilter && !(a.genres ?? []).includes(genreFilter)) return false;
 			return true;
 		});
 		if (sort === 'az') list = [...list].sort((a, b) => a.name.localeCompare(b.name));
@@ -187,7 +187,7 @@
 							{/if}
 							<span class="meta">
 								<span class="name">{a.name}</span>
-								{#if a.genres.length}
+								{#if a.genres?.length}
 									<span class="genres">{a.genres.slice(0, 3).join(' · ')}</span>
 								{/if}
 							</span>
