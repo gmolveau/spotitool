@@ -36,6 +36,40 @@ confirm / batched unfollow).
    # set VITE_SPOTIFY_CLIENT_ID=...
    ```
 
+## Spotify API limitations (Development mode)
+
+By default, every app you create in the Spotify Developer Dashboard starts in
+**Development mode**. This is a hard constraint from Spotify — not a limitation
+of SpotiTool — and it shapes how this app can be used:
+
+- **5-user allowlist.** Only Spotify accounts you explicitly add under
+  *Settings → User Management* can authenticate against the app. The list is
+  capped at **5 users**, and each must be added by name **and** email exactly
+  as they appear on the user's Spotify profile. Anyone not on the list gets an
+  auth error and cannot sign in.
+- **You are user #1.** The account that owns the app (the developer) can always
+  use it. That is why SpotiTool works out of the box for you without touching
+  the allowlist.
+- **No public distribution.** A Development-mode app cannot be opened up to the
+  general public. To lift the 5-user cap you must apply for **Extended Quota
+  mode**, and Spotify's review has requirements that a personal, single-user
+  tool generally cannot (and does not need to) meet — e.g. a registered
+  business/organization, a commercial use case, branding and privacy-policy
+  compliance. SpotiTool is intentionally a personal tool and stays in
+  Development mode.
+- **Lower rate limits.** Development-mode apps get a smaller rolling-window rate
+  limit than Extended Quota apps. For a single user this is rarely hit, but bulk
+  operations (e.g. unfollowing many artists) are batched partly for this reason.
+- **Deprecated endpoints stay deprecated.** Some Web API endpoints Spotify has
+  restricted (e.g. audio-features, related-artists, recommendations) are
+  unavailable to newly created apps regardless of mode — Development mode does
+  not grant access to them.
+
+**Practical takeaway:** SpotiTool is designed as a *single-user* tool. Run it
+with your own Spotify Developer app, and you never touch the allowlist. If you
+want a friend to use it, either add them (up to 4 others) to your app's User
+Management list, or have them create their own Spotify app and Client ID.
+
 ## Develop
 
 ```sh
